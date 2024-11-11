@@ -1,0 +1,225 @@
+---
+title: "Clustering"
+author: "Carlos Correa Iñiguez"
+date: "November 11, 2024"
+format: revealjs
+revealjs:
+    theme: simple
+    slideNumber: true
+    transition: fade
+    css: '/Users/ccorreai/Documents/GitHub/Clustering/unab-style.css'
+---
+
+# Introducción al Clustering
+
+**Autor:** Carlos Correa Iñiguez  
+**Correo:** c.correainiguez@uandresbello.edu  
+
+*Este material de clase está basado en las enseñanzas de los profesores Juan Manuel Maidana y Mailiu Diaz.*
+
+---
+
+# Objetivos de la Clase
+
+- **Entender el concepto y utilidad del clustering** como método de análisis no supervisado para descubrir patrones en datos no etiquetados.
+- **Explorar los principales algoritmos de clustering** (K-means y clustering jerárquico) y sus aplicaciones prácticas en distintas áreas.
+
+---
+
+## Recordemos...
+
+![Proceso de Data Mining](proceso_DM.png)
+
+---
+
+## ¿Qué es el Clustering?
+
+- **Clustering** organiza datos en grupos (clústeres) según sus similitudes.
+- Es una técnica de **aprendizaje no supervisado** que no utiliza etiquetas previas.
+- Su objetivo es **explorar y descubrir estructuras** en los datos.
+- **K-means** (1955, desarrollado por Evelyn Fix y Joseph Hodges) es uno de los algoritmos de clustering más simples y populares.
+- Diseñar un **algoritmo de clustering universal** es complejo debido a la diversidad de los datos.
+
+---
+
+## Tipos de Clústeres
+
+- **Clúster Duro**:
+  - En este tipo de agrupación, cada punto de datos pertenece a un clúster completamente o no pertenece a ningún otro.
+  - Ejemplo: K-means, donde cada punto se asigna a un único clúster basado en proximidad al centroide.
+
+---
+
+## Tipos de Clústeres
+
+- **Clúster Blando**:
+  - En la agrupación blanda, un punto de datos puede pertenecer a múltiples clústeres con diferentes grados de probabilidad o verosimilitud.
+  - Ejemplo: Fuzzy K-means, donde cada punto tiene un grado de pertenencia a varios clústeres.
+
+---
+
+## Tipos de Clústeres
+
+![Tipos de Cluster](tipos_cluster.png)
+
+---
+
+# Algoritmos de Clustering
+
+---
+
+![Metodologias Clustering](met_clustering.png)
+
+---
+
+## Algoritmos de Clustering más Utilizados
+
+- **K-medias (K-means)**: Agrupa los datos en $k$ clústeres basados en la proximidad a un centroide.
+- **K-medias difuso (Fuzzy K-means)**: Permite que cada punto de datos pertenezca a múltiples clústeres con distintos grados de pertenencia.
+- **Agrupamiento jerárquico (Hierarchical Clustering)**: Crea una estructura de clústeres anidados, representada en un dendrograma.
+- **Mezcla de Gaussianas (Mixture of Gaussians)**: Modela los datos como una combinación de múltiples distribuciones gaussianas.
+
+---
+
+## ¿Qué es el K-means?
+
+- **K-means** es un algoritmo de **clustering no supervisado** que organiza datos en $k$ clústeres basándose en la similitud.
+
+### Categorías en el contexto de K-means:
+
+- **Aprendizaje Paramétrico**:
+  - Se asume una **distribución paramétrica** de los datos (ej. distribución normal).
+  - Los datos están parametrizados por **media** y **desviación estándar**, lo que permite predecir la probabilidad de nuevas observaciones.
+  - **Desafío**: No existe una medida precisa para verificar la calidad de los resultados de clustering.
+
+## ¿Qué es el K-means?
+
+### Categorías en el contexto de K-means:
+
+- **Aprendizaje No Paramétrico**:
+  - Usado para analizar datos con **muestras pequeñas**.
+  - No requiere supuestos sobre la distribución de la población, por lo que se considera un método **sin distribución**.
+  - Ideal para explorar la estructura de los datos sin suposiciones fuertes.
+
+---
+
+## Definicion K-Means
+
+![Definicion KMeans](Definicion_KMeans.png)
+
+---
+
+## Algoritmo K-means: Pasos Principales
+
+Dado:
+
+- $X = \{x_1, x_2, \ldots, x_n\}$: Conjunto de puntos de datos.
+- $V = \{v_1, v_2, \ldots, v_c\}$: Conjunto de centros (centroides).
+
+### Pasos del Algoritmo
+
+1. **Especificar el número de clústeres** ($K$) que se desean crear.
+2. **Seleccionar aleatoriamente $K$ puntos** del conjunto de datos como centros iniciales.
+3. **Asignar cada observación** a su centroide más cercano, basándose en una medida de similitud (por ejemplo, distancia euclidiana).
+
+---
+
+## Algoritmo K-means: Pasos Principales
+
+4. **Actualizar los centroides**: Para cada clúster, calcular el nuevo centroide ($v_i$) como la media de los puntos asignados al clúster.
+
+   $$
+   v_i = \frac{1}{c_i} \sum_{j=1}^{c_i} x_j
+   $$
+
+   donde $c_i$ es el número de puntos en el clúster $i$.
+
+---
+
+## Fórmula de K-means
+
+La variación dentro de un clúster $W(C_k)$ se define como:
+
+$$
+W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2
+$$
+
+donde:
+- $x_i$: puntos de datos en el clúster $C_k$.
+- $\mu_k$: centroide del clúster $C_k$.
+
+---
+
+## Clustering Jerárquico
+
+- **Algoritmo Aglomerativo**: Combina clústeres de menor a mayor similitud.
+- **Representación Visual**: Se utiliza un dendrograma para representar las fusiones jerárquicas.
+
+---
+
+## Ejemplo de Dendrograma
+
+![Dendrograma](https://upload.wikimedia.org/wikipedia/commons/5/54/Hierarchical_clustering_simple_diagram.svg)
+
+---
+
+# Determinación del Número Óptimo de Clústers
+
+---
+
+## Método Elbow
+
+1. Calcular el algoritmo para diferentes valores de \( k \).
+2. Para cada \( k \), calcular la suma total del cuadrado dentro del conglomerado (\( wss \)).
+3. Graficar \( wss \) vs. \( k \).
+4. El punto donde se "dobla" el gráfico es el \( k \) óptimo.
+
+---
+
+## Método Silhouette
+
+- Mide la calidad de agrupamiento de cada punto.
+- **Fórmula**:
+  \[
+  s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}
+  \]
+  donde \( a(i) \) es la distancia media al clúster de pertenencia y \( b(i) \) es la menor distancia a otros clústeres.
+
+---
+
+## Método Gap
+
+- Compara la variación total entre grupos para diferentes valores de \( k \) con una distribución de referencia.
+
+\[
+\text{GAP}_n(k) = E^*_n[\log(W_k)] - \log(W_k)
+\]
+
+---
+
+# Aplicaciones del Clustering
+
+- **Marketing**: Segmentación de clientes por comportamiento de compra.
+- **Biología**: Clasificación de plantas y animales.
+- **Seguro**: Identificación de perfiles de alto riesgo.
+- **Estudios de terremotos**: Identificación de zonas peligrosas.
+
+---
+
+# Conclusiones y Discusión
+
+- Clustering permite encontrar patrones en datos no etiquetados.
+- Los métodos de evaluación como Elbow y Silhouette ayudan a determinar el número óptimo de clústers.
+
+**¿Preguntas?**
+
+---
+
+## Referencias
+
+- Jain, A. K. (2010). "Data clustering: 50 years beyond K-means." *Pattern Recognition Letters*.
+- Bishop, C. M. (2006). *Pattern Recognition and Machine Learning*. Springer.
+- Murphy, K. P. (2012). *Machine Learning: A Probabilistic Perspective*. MIT Press.
+- Geron, A. (2019). *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*. O'Reilly Media.
+
+---
