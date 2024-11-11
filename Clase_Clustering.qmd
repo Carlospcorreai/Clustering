@@ -8,6 +8,7 @@ format:
     slideNumber: true
     transition: fade
     css: "unab-style.css"
+output-file: "index.html"  # Configuración para generar el archivo con nombre index.html
 ---
 
 # Introducción al Clustering
