@@ -1,95 +1,43 @@
-/* Ajuste automático del tamaño de la fuente en Reveal.js */
+/* Tamaño base de fuente aumentado */
+.reveal {
+  font-family: 'Arial', sans-serif;
+  font-size: 18px; /* Aumenta el tamaño de fuente base */
+  background-color: #f8f9fa; /* Fondo claro */
+  color: #333333; /* Texto oscuro */
+}
+
+/* Ajuste de tamaño automático en relación al tamaño de la pantalla */
 .reveal .slides section {
-  font-size: calc(0.8vw + 0.8vh + 0.5vmin); /* Ajusta el tamaño de fuente para adaptarse a la pantalla */
+  font-size: calc(1vw + 1vh + 0.8vmin); /* Aumenta el tamaño general de la fuente */
+  text-align: left; /* Alinea el texto al lado izquierdo */
 }
 
-/* Reducción de tamaño de fuente para listas largas */
+/* Tamaño de fuente aumentado para listas */
 .reveal ul {
-  font-size: 0.9em; /* Disminuye el tamaño de las listas */
-  line-height: 1.5; /* Aumenta ligeramente el espacio entre líneas para mejor legibilidad */
+  font-size: 1.1em; /* Aumenta el tamaño de fuente de listas */
+  line-height: 1.6; /* Mejora la legibilidad */
 }
 
-/* Estilo para encabezados */
-.reveal h1, .reveal h2, .reveal h3 {
+/* Tamaños específicos para encabezados */
+.reveal h1 {
+  font-size: 2.2em; /* Aumenta el tamaño de h1 */
   color: #b81d10; /* Rojo UNAB */
   font-weight: bold;
 }
 
-/* Color y estilo específico para subtítulos */
 .reveal h2 {
+  font-size: 1.8em; /* Aumenta el tamaño de h2 */
   color: #2e4057; /* Azul oscuro UNAB */
   font-weight: bold;
 }
 
-/* Reducción del padding en diapositivas para ganar espacio */
-.reveal .slide {
-  padding: 10px; /* Disminuye el padding para maximizar el espacio de contenido */
-}
-
-/* Posicionamiento y estilo del logotipo de UNAB en la esquina superior derecha */
-.reveal .slides {
-  position: relative;
-}
-
-.reveal .slides::before {
-  content: url('logo_unab.png'); /* Inserta el logotipo */
-  position: absolute;
-  top: 10px; /* Posición desde la parte superior */
-  right: 10px; /* Posición desde la parte derecha */
-  width: 80px; /* Tamaño ajustado del logotipo para que ocupe menos espacio */
-  height: auto; /* Mantiene la proporción */
-}
-
-/* Configuración de estilo general para el contenedor principal */
-.reveal {
-  font-family: 'Arial', sans-serif;
-  background-color: #f8f9fa; /* Fondo claro */
-  color: #333333; /* Texto oscuro */
+.reveal h3 {
+  font-size: 1.5em; /* Aumenta el tamaño de h3 */
+  color: #b81d10; /* Rojo UNAB */
+  font-weight: bold;
 }
 
 /* Estilo para enlaces */
 .reveal a {
   color: #b81d10;
-  text-decoration: underline;
-}
-
-/* Estilo para botones y enlaces */
-.reveal .button, .reveal a {
-  background-color: #b81d10;
-  color: #ffffff;
-  padding: 5px 10px;
-  border-radius: 5px;
-  text-decoration: none;
-}
-
-.reveal .button:hover, .reveal a:hover {
-  background-color: #2e4057;
-}
-
-/* Estilo para tablas */
-.reveal table {
-  border-collapse: collapse;
-  width: 100%;
-  margin-top: 20px;
-}
-
-.reveal table, .reveal th, .reveal td {
-  border: 1px solid #333333;
-  padding: 8px;
-}
-
-.reveal th {
-  background-color: #b81d10;
-  color: white;
-}
-
-.reveal td {
-  color: #333333;
-}
-
-/* Estilo para pie de página y notas */
-.reveal .footer, .reveal .notes {
-  font-size: 0.8em;
-  color: #666666;
-  text-align: center;
-}
+  text-decoration:

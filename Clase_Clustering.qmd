@@ -2,12 +2,12 @@
 title: "Clustering"
 author: "Carlos Correa Iñiguez"
 date: "November 11, 2024"
-format: revealjs
-revealjs:
+format:
+  revealjs:
     theme: simple
     slideNumber: true
     transition: fade
-    css: '/Users/ccorreai/Documents/GitHub/Clustering/unab-style.css'
+    css: "unab-style.css"
 ---
 
 # Introducción al Clustering
@@ -136,82 +136,241 @@ Dado:
 
 ---
 
-## Fórmula de K-means
+## Medidas de Distancia en Clasificación de Observaciones
 
-La variación dentro de un clúster $W(C_k)$ se define como:
+La clasificación de las observaciones dentro de los grupos se basa en medidas de distancia o disimilaridad entre cada par de observaciones:
 
-$$
-W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2
-$$
+- **Distancia Euclidiana**: Calcula la distancia "en línea recta" entre dos puntos.
+- **Distancia de Manhattan**: Calcula la distancia como la suma de las diferencias absolutas entre coordenadas.
+- **Distancia de la correlación de Pearson**:
+  $$
+  d_\rho(x, y) = 1 - \rho
+  $$
 
-donde:
-- $x_i$: puntos de datos en el clúster $C_k$.
-- $\mu_k$: centroide del clúster $C_k$.
+## Medidas de Distancia en Clasificación de Observaciones
 
----
-
-## Clustering Jerárquico
-
-- **Algoritmo Aglomerativo**: Combina clústeres de menor a mayor similitud.
-- **Representación Visual**: Se utiliza un dendrograma para representar las fusiones jerárquicas.
-
----
-
-## Ejemplo de Dendrograma
-
-![Dendrograma](https://upload.wikimedia.org/wikipedia/commons/5/54/Hierarchical_clustering_simple_diagram.svg)
+- **Distancia de la correlación de Spearman**:
+  $$
+  d_{\text{spear}}(x, y) = 1 - \rho_{\text{rank}}
+  $$
+- **Distancia de la correlación de Kendall**:
+  $$
+  d_{\text{kend}}(x, y) = 1 - \tau
+  $$
 
 ---
 
-# Determinación del Número Óptimo de Clústers
+## Variaciones de Medidas de Distancia
+
+- **Distancia Euclidiana Ponderada**: Se asigna un peso a cada atributo para expresar su importancia relativa.  
+  $$
+  \text{dist}(X_i, X_j) = \sqrt{\omega_1(x_{i1} - x_{j1})^2 + \omega_2(x_{i2} - x_{j2})^2 + \cdots + \omega_r(x_{ir} - x_{jr})^2}
+  $$
+
+- **Distancia Euclidiana al Cuadrado**: La distancia euclidiana estándar se eleva al cuadrado para dar mayor peso a puntos más alejados.
+  $$
+  \text{dist}(X_i, X_j) = (x_{i1} - x_{j1})^2 + (x_{i2} - x_{j2})^2 + \cdots + (x_{ir} - x_{jr})^2
+  $$
+
+- **Distancia de Chebychev**: Útil cuando dos puntos se consideran "diferentes" si tienen alguna diferencia significativa en cualquiera de los atributos.
+  $$
+  \text{dist}(X_i, X_j) = \max(|x_{i1} - x_{j1}|, |x_{i2} - x_{j2}|, \ldots, |x_{ir} - x_{jr}|)
+  $$
 
 ---
 
-## Método Elbow
+## Métodos de Agrupación Jerárquica
 
-1. Calcular el algoritmo para diferentes valores de \( k \).
-2. Para cada \( k \), calcular la suma total del cuadrado dentro del conglomerado (\( wss \)).
-3. Graficar \( wss \) vs. \( k \).
-4. El punto donde se "dobla" el gráfico es el \( k \) óptimo.
+- **Agrupación Aglomerativa (de abajo hacia arriba)**:
+  - Construye el dendrograma comenzando desde el nivel inferior.
+  - Fusiona el par de clústeres más similares en cada nivel.
+  - Continúa hasta que todos los puntos se fusionan en un único grupo (grupo raíz).
 
 ---
 
-## Método Silhouette
+## Agrupación Aglomerativa (de abajo hacia arriba)
 
-- Mide la calidad de agrupamiento de cada punto.
-- **Fórmula**:
-  \[
-  s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}
-  \]
-  donde \( a(i) \) es la distancia media al clúster de pertenencia y \( b(i) \) es la menor distancia a otros clústeres.
+![Agrupación Aglomerativa](Agrupacion_aglomerativa.png)
+
+---
+
+## Métodos de Agrupación Jerárquica
+
+- **Agrupación Divisiva (de arriba hacia abajo)**:
+  - Comienza con todos los puntos de datos en un único clúster (raíz).
+  - Divide la raíz en clústeres hijo.
+  - Cada clúster hijo se divide recursivamente hasta obtener grupos con solo un punto.
+
+---
+
+## Agrupación Divisiva (de arriba hacia abajo)
+
+![Agrupación Divisiva](dendograma.png)
+
+---
+
+## Algoritmo de Agrupación Jerárquica Aglomerativa
+
+1. **Asignación inicial**: Asigna cada elemento a un clúster individual, de modo que, con $N$ elementos, haya $N$ clústeres (uno por elemento). Las distancias o similitudes entre clústeres son iguales a las distancias entre los elementos que contienen.
+
+2. **Fusión de clústeres cercanos**: Encuentra el par de clústeres más cercano (más similar) y combínalos en un solo clúster. Ahora habrá un clúster menos.
+
+3. **Recalcular distancias**: Calcula las distancias (o similitudes) entre el nuevo clúster y los clústeres restantes.
+
+4. **Repetición**: Repite los pasos 2 y 3 hasta que todos los elementos se agrupen en un único clúster de tamaño $N$.
+
+---
+
+## Agrupamiento Jerárquico
+
+- **Secuencia Anidada de Grupos**: El agrupamiento jerárquico se representa como una secuencia anidada de grupos en forma de árbol.
+- **Estructura del Dendrograma**:
+  - La **parte superior** del dendrograma muestra la secuencia de cúmulos anidados.
+  - La **parte inferior** ilustra cómo los grupos se combinan progresivamente en distintos niveles.
+
+---
+
+## Agrupamiento Jerárquico
+
+![Agrupación Jerárquico](dendograma1.png)
+
+---
+
+## Número Óptimo de Clústeres
+
+Los tres métodos más populares para determinar el número óptimo de clústeres $K$ son:
+
+- **Elbow**: Analiza la variación dentro de los clústeres y observa el punto en el que la disminución de la variación se estabiliza, formando un "codo" en el gráfico.
+- **Silhouette**: Mide la calidad del agrupamiento calculando cuán cerca está cada punto de otros puntos dentro de su propio clúster en comparación con puntos en otros clústeres.
+- **Gap**: Compara la variación total entre los clústeres para diferentes valores de $K$ frente a una distribución de referencia aleatoria.
+
+---
+
+## Método Elbow para Determinar el Número de Clústeres
+
+1. **Calcular el algoritmo de agrupamiento** para diferentes valores de $k$ (número de clústeres).
+2. Para cada $k$, calcular la **suma total del cuadrado dentro del conglomerado** ($wss$):
+   $$
+   \sum_{k=1}^K W(C_k)
+   $$
+3. **Trazar la curva de $wss$** en función del número de conglomerados $k$.
+4. Identificar el punto en el cual la curva se estabiliza (formando un "codo"), ya que generalmente indica el número adecuado de grupos.
+
+---
+
+## Método Elbow para Determinar el Número de Clústeres
+
+1. **Calcular el algoritmo de agrupamiento** para diferentes valores de $k$ (número de clústeres).
+2. Para cada $k$, calcular la **suma total del cuadrado dentro del conglomerado** ($wss$):
+   $$
+   \sum_{k=1}^K W(C_k)
+   $$
+3. **Trazar la curva de $wss$** en función del número de conglomerados $k$.
+4. Identificar el punto en el cual la curva se estabiliza (formando un "codo"), ya que generalmente indica el número adecuado de grupos.
+
+![Método Elbow](elbow.png)
+
+---
+
+## Método Silhouette para Determinar el Número de Clústeres
+
+- El método Silhouette mide la **calidad del agrupamiento**, evaluando cuán bien está cada objeto dentro de su grupo.
+- Calcula la **silueta promedio** de las observaciones para diferentes valores de $k$.
+- El **número óptimo de clústeres** $k$ es aquel que **maximiza la silueta promedio** dentro de un rango de valores posibles para $k$.
+
+---
+
+## Método Silhouette para Determinar el Número de Clústeres
+
+![Método Silhouette](silueta.png)
 
 ---
 
 ## Método Gap
 
-- Compara la variación total entre grupos para diferentes valores de \( k \) con una distribución de referencia.
-
-\[
-\text{GAP}_n(k) = E^*_n[\log(W_k)] - \log(W_k)
-\]
-
----
-
-# Aplicaciones del Clustering
-
-- **Marketing**: Segmentación de clientes por comportamiento de compra.
-- **Biología**: Clasificación de plantas y animales.
-- **Seguro**: Identificación de perfiles de alto riesgo.
-- **Estudios de terremotos**: Identificación de zonas peligrosas.
+- El **estadístico de Gap** compara la variación total entre grupos para diferentes valores de $k$ con sus valores esperados bajo una **distribución de referencia nula**.
+- El conjunto de datos de referencia se genera mediante **simulaciones de Monte Carlo** del proceso de muestreo.
+- La fórmula del estadístico Gap es:
+  $$
+  \text{GAP}_n(k) = E^*_n[\log(W_k)] - \log(W_k)
+  $$
+  donde:
+  - $W_k$ es la variación total dentro de los clústeres para un valor de $k$.
+  - $E^*_n[\log(W_k)]$ es el valor esperado bajo la distribución de referencia.
 
 ---
 
-# Conclusiones y Discusión
+## Método Gap
 
-- Clustering permite encontrar patrones en datos no etiquetados.
-- Los métodos de evaluación como Elbow y Silhouette ayudan a determinar el número óptimo de clústers.
+![Método Gap](gap.png)
 
-**¿Preguntas?**
+---
+
+## Evaluación de Clústeres
+
+- **Inspección del Usuario**: Un panel de expertos inspecciona los grupos resultantes y asigna una puntuación. La puntuación final es el promedio de los puntos.
+
+- **Entropía para Cada Clúster**: Mide la incertidumbre dentro de un clúster.
+  $$
+  \text{entropy}(D_i) = - \sum_{i=1}^k P_i(c_i) \log(P_i(c_i))
+  $$
+
+- **Entropía Total**: Promedio ponderado de la entropía en todos los clústeres.
+  $$
+  \text{entropía total}(D) = - \sum_{i=1}^k \frac{|D_i|}{|D|} \times \text{entropy}(D_i)
+  $$
+
+---
+
+## Evaluación de Clústeres
+
+- **Pureza para Cada Clúster**: Proporción máxima de elementos de una sola clase dentro de un clúster.
+  $$
+  \text{purity}(D_i) = \max(P_i(c_i))
+  $$
+
+- **Pureza Total**: Promedio ponderado de la pureza en todos los clústeres.
+  $$
+  \text{pureza total}(D) = \sum_{i=1}^k \frac{|D_i|}{|D|} \times \text{purity}(D_i)
+  $$
+
+---
+
+## Problemas en la Agrupación en Clústeres
+
+- **Gran número de dimensiones y elementos**: Tratar con un gran volumen de datos puede ser problemático debido a la complejidad computacional y el tiempo requerido.
+- **Dependencia de la definición de "distancia"**: La efectividad del método depende de cómo se defina la medida de distancia, lo cual puede ser complejo en espacios multidimensionales sin una métrica evidente.
+- **Interpretación de resultados**: El resultado del algoritmo puede interpretarse de diferentes maneras, lo que afecta su aplicación práctica.
+- **Clústeres vacíos en K-means**: En el algoritmo K-means, algunos clústeres pueden quedar vacíos durante el proceso de agrupamiento, lo cual puede afectar los resultados.
+
+---
+
+## Aplicaciones de Clustering
+
+- **Marketing**: Segmentación de clientes según comportamientos de compra para personalizar estrategias de marketing.
+- **Biología**: Clasificación de especies o genes en función de similitudes genéticas o fenotípicas.
+- **Medicina**: Agrupación de pacientes con síntomas similares para mejorar diagnósticos y tratamientos.
+- **Finanzas**: Identificación de patrones en datos de transacciones para la detección de fraude.
+- **Redes Sociales**: Detección de comunidades dentro de redes de usuarios para analizar interacciones.
+- **Ciencia de Datos**: Preprocesamiento y reducción de dimensionalidad en análisis exploratorio de datos.
+
+---
+
+## Preguntas para los Alumnos
+
+- ¿Cuál es la diferencia entre clustering jerárquico y K-means?
+- ¿Qué métodos existen para determinar el número óptimo de clústeres?
+- ¿En qué situaciones se utilizaría una métrica de distancia como Chebychev en lugar de la euclidiana?
+- ¿Cómo se podría aplicar el clustering en un problema de su campo de estudio?
+
+---
+
+## Conclusiones de la Clase
+
+- El clustering es una técnica de análisis no supervisado que permite encontrar patrones en datos no etiquetados.
+- Existen diversos métodos de clustering, cada uno adecuado para diferentes tipos de datos y objetivos.
+- La selección de la métrica de distancia y el número de clústeres son decisiones clave que afectan la efectividad del análisis.
+- El clustering tiene aplicaciones en múltiples campos, desde marketing hasta medicina y redes sociales.
 
 ---
 

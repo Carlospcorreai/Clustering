@@ -32,6 +32,7 @@
     }
   </style>
   <link rel="stylesheet" href="Clase_Clustering_files/libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="unab-style.css">
   <link href="Clase_Clustering_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Clase_Clustering_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Clase_Clustering_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -471,42 +472,126 @@ v_i = \frac{1}{c_i} \sum_{j=1}^{c_i} x_j
 <p>donde <span class="math inline">\(c_i\)</span> es el número de puntos en el clúster <span class="math inline">\(i\)</span>.</p></li>
 </ol>
 </section>
-<section id="fórmula-de-k-means" class="slide level2">
-<h2>Fórmula de K-means</h2>
-<p>La variación dentro de un clúster <span class="math inline">\(W(C_k)\)</span> se define como:</p>
-<p><span class="math display">\[
-W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2
-\]</span></p>
-<p>donde: - <span class="math inline">\(x_i\)</span>: puntos de datos en el clúster <span class="math inline">\(C_k\)</span>. - <span class="math inline">\(\mu_k\)</span>: centroide del clúster <span class="math inline">\(C_k\)</span>.</p>
-</section>
-<section id="clustering-jerárquico" class="slide level2">
-<h2>Clustering Jerárquico</h2>
+<section id="medidas-de-distancia-en-clasificación-de-observaciones" class="slide level2">
+<h2>Medidas de Distancia en Clasificación de Observaciones</h2>
+<p>La clasificación de las observaciones dentro de los grupos se basa en medidas de distancia o disimilaridad entre cada par de observaciones:</p>
 <ul>
-<li><strong>Algoritmo Aglomerativo</strong>: Combina clústeres de menor a mayor similitud.</li>
-<li><strong>Representación Visual</strong>: Se utiliza un dendrograma para representar las fusiones jerárquicas.</li>
+<li><strong>Distancia Euclidiana</strong>: Calcula la distancia “en línea recta” entre dos puntos.</li>
+<li><strong>Distancia de Manhattan</strong>: Calcula la distancia como la suma de las diferencias absolutas entre coordenadas.</li>
+<li><strong>Distancia de la correlación de Pearson</strong>: <span class="math display">\[
+d_\rho(x, y) = 1 - \rho
+\]</span></li>
 </ul>
 </section>
-<section id="ejemplo-de-dendrograma" class="slide level2">
-<h2>Ejemplo de Dendrograma</h2>
-
-<img data-src="https://upload.wikimedia.org/wikipedia/commons/5/54/Hierarchical_clustering_simple_diagram.svg" class="r-stretch quarto-figure-center"><p class="caption">Dendrograma</p></section>
-<section class="slide level2">
-
-</section></section>
-<section>
-<section id="determinación-del-número-óptimo-de-clústers" class="title-slide slide level1 center">
-<h1>Determinación del Número Óptimo de Clústers</h1>
-
+<section id="medidas-de-distancia-en-clasificación-de-observaciones-1" class="slide level2">
+<h2>Medidas de Distancia en Clasificación de Observaciones</h2>
+<ul>
+<li><strong>Distancia de la correlación de Spearman</strong>: <span class="math display">\[
+d_{\text{spear}}(x, y) = 1 - \rho_{\text{rank}}
+\]</span></li>
+<li><strong>Distancia de la correlación de Kendall</strong>: <span class="math display">\[
+d_{\text{kend}}(x, y) = 1 - \tau
+\]</span></li>
+</ul>
 </section>
-<section id="método-elbow" class="slide level2">
-<h2>Método Elbow</h2>
+<section id="variaciones-de-medidas-de-distancia" class="slide level2">
+<h2>Variaciones de Medidas de Distancia</h2>
+<ul>
+<li><p><strong>Distancia Euclidiana Ponderada</strong>: Se asigna un peso a cada atributo para expresar su importancia relativa.<br>
+<span class="math display">\[
+\text{dist}(X_i, X_j) = \sqrt{\omega_1(x_{i1} - x_{j1})^2 + \omega_2(x_{i2} - x_{j2})^2 + \cdots + \omega_r(x_{ir} - x_{jr})^2}
+\]</span></p></li>
+<li><p><strong>Distancia Euclidiana al Cuadrado</strong>: La distancia euclidiana estándar se eleva al cuadrado para dar mayor peso a puntos más alejados. <span class="math display">\[
+\text{dist}(X_i, X_j) = (x_{i1} - x_{j1})^2 + (x_{i2} - x_{j2})^2 + \cdots + (x_{ir} - x_{jr})^2
+\]</span></p></li>
+<li><p><strong>Distancia de Chebychev</strong>: Útil cuando dos puntos se consideran “diferentes” si tienen alguna diferencia significativa en cualquiera de los atributos. <span class="math display">\[
+\text{dist}(X_i, X_j) = \max(|x_{i1} - x_{j1}|, |x_{i2} - x_{j2}|, \ldots, |x_{ir} - x_{jr}|)
+\]</span></p></li>
+</ul>
+</section>
+<section id="métodos-de-agrupación-jerárquica" class="slide level2">
+<h2>Métodos de Agrupación Jerárquica</h2>
+<ul>
+<li><strong>Agrupación Aglomerativa (de abajo hacia arriba)</strong>:
+<ul>
+<li>Construye el dendrograma comenzando desde el nivel inferior.</li>
+<li>Fusiona el par de clústeres más similares en cada nivel.</li>
+<li>Continúa hasta que todos los puntos se fusionan en un único grupo (grupo raíz).</li>
+</ul></li>
+</ul>
+</section>
+<section id="agrupación-aglomerativa-de-abajo-hacia-arriba" class="slide level2">
+<h2>Agrupación Aglomerativa (de abajo hacia arriba)</h2>
+
+<img data-src="Agrupacion_aglomerativa.png" class="r-stretch quarto-figure-center"><p class="caption">Agrupación Aglomerativa</p></section>
+<section id="métodos-de-agrupación-jerárquica-1" class="slide level2">
+<h2>Métodos de Agrupación Jerárquica</h2>
+<ul>
+<li><strong>Agrupación Divisiva (de arriba hacia abajo)</strong>:
+<ul>
+<li>Comienza con todos los puntos de datos en un único clúster (raíz).</li>
+<li>Divide la raíz en clústeres hijo.</li>
+<li>Cada clúster hijo se divide recursivamente hasta obtener grupos con solo un punto.</li>
+</ul></li>
+</ul>
+</section>
+<section id="agrupación-divisiva-de-arriba-hacia-abajo" class="slide level2">
+<h2>Agrupación Divisiva (de arriba hacia abajo)</h2>
+
+<img data-src="dendograma.png" class="r-stretch quarto-figure-center"><p class="caption">Agrupación Divisiva</p></section>
+<section id="algoritmo-de-agrupación-jerárquica-aglomerativa" class="slide level2">
+<h2>Algoritmo de Agrupación Jerárquica Aglomerativa</h2>
 <ol type="1">
-<li>Calcular el algoritmo para diferentes valores de ( k ).</li>
-<li>Para cada ( k ), calcular la suma total del cuadrado dentro del conglomerado (( wss )).</li>
-<li>Graficar ( wss ) vs.&nbsp;( k ).</li>
-<li>El punto donde se “dobla” el gráfico es el ( k ) óptimo.</li>
+<li><p><strong>Asignación inicial</strong>: Asigna cada elemento a un clúster individual, de modo que, con <span class="math inline">\(N\)</span> elementos, haya <span class="math inline">\(N\)</span> clústeres (uno por elemento). Las distancias o similitudes entre clústeres son iguales a las distancias entre los elementos que contienen.</p></li>
+<li><p><strong>Fusión de clústeres cercanos</strong>: Encuentra el par de clústeres más cercano (más similar) y combínalos en un solo clúster. Ahora habrá un clúster menos.</p></li>
+<li><p><strong>Recalcular distancias</strong>: Calcula las distancias (o similitudes) entre el nuevo clúster y los clústeres restantes.</p></li>
+<li><p><strong>Repetición</strong>: Repite los pasos 2 y 3 hasta que todos los elementos se agrupen en un único clúster de tamaño <span class="math inline">\(N\)</span>.</p></li>
 </ol>
 </section>
+<section id="agrupamiento-jerárquico" class="slide level2">
+<h2>Agrupamiento Jerárquico</h2>
+<ul>
+<li><strong>Secuencia Anidada de Grupos</strong>: El agrupamiento jerárquico se representa como una secuencia anidada de grupos en forma de árbol.</li>
+<li><strong>Estructura del Dendrograma</strong>:
+<ul>
+<li>La <strong>parte superior</strong> del dendrograma muestra la secuencia de cúmulos anidados.</li>
+<li>La <strong>parte inferior</strong> ilustra cómo los grupos se combinan progresivamente en distintos niveles.</li>
+</ul></li>
+</ul>
+
+<img data-src="dendograma1.png" class="r-stretch quarto-figure-center"><p class="caption">Agrupación Jerárquico</p></section>
+<section id="número-óptimo-de-clústeres" class="slide level2">
+<h2>Número Óptimo de Clústeres</h2>
+<p>Los tres métodos más populares para determinar el número óptimo de clústeres <span class="math inline">\(K\)</span> son:</p>
+<ul>
+<li><strong>Elbow</strong>: Analiza la variación dentro de los clústeres y observa el punto en el que la disminución de la variación se estabiliza, formando un “codo” en el gráfico.</li>
+<li><strong>Silhouette</strong>: Mide la calidad del agrupamiento calculando cuán cerca está cada punto de otros puntos dentro de su propio clúster en comparación con puntos en otros clústeres.</li>
+<li><strong>Gap</strong>: Compara la variación total entre los clústeres para diferentes valores de <span class="math inline">\(K\)</span> frente a una distribución de referencia aleatoria.</li>
+</ul>
+</section>
+<section id="método-elbow-para-determinar-el-número-de-clústeres" class="slide level2">
+<h2>Método Elbow para Determinar el Número de Clústeres</h2>
+<ol type="1">
+<li><strong>Calcular el algoritmo de agrupamiento</strong> para diferentes valores de <span class="math inline">\(k\)</span> (número de clústeres).</li>
+<li>Para cada <span class="math inline">\(k\)</span>, calcular la <strong>suma total del cuadrado dentro del conglomerado</strong> (<span class="math inline">\(wss\)</span>): <span class="math display">\[
+\sum_{k=1}^K W(C_k)
+\]</span></li>
+<li><strong>Trazar la curva de <span class="math inline">\(wss\)</span></strong> en función del número de conglomerados <span class="math inline">\(k\)</span>.</li>
+<li>Identificar el punto en el cual la curva se estabiliza (formando un “codo”), ya que generalmente indica el número adecuado de grupos.</li>
+</ol>
+</section>
+<section id="método-elbow-para-determinar-el-número-de-clústeres-1" class="slide level2">
+<h2>Método Elbow para Determinar el Número de Clústeres</h2>
+<ol type="1">
+<li><strong>Calcular el algoritmo de agrupamiento</strong> para diferentes valores de <span class="math inline">\(k\)</span> (número de clústeres).</li>
+<li>Para cada <span class="math inline">\(k\)</span>, calcular la <strong>suma total del cuadrado dentro del conglomerado</strong> (<span class="math inline">\(wss\)</span>): <span class="math display">\[
+\sum_{k=1}^K W(C_k)
+\]</span></li>
+<li><strong>Trazar la curva de <span class="math inline">\(wss\)</span></strong> en función del número de conglomerados <span class="math inline">\(k\)</span>.</li>
+<li>Identificar el punto en el cual la curva se estabiliza (formando un “codo”), ya que generalmente indica el número adecuado de grupos.</li>
+</ol>
+
+<img data-src="elbow.png" class="r-stretch quarto-figure-center"><p class="caption">Método Elbow</p></section>
 <section id="método-silhouette" class="slide level2">
 <h2>Método Silhouette</h2>
 <ul>
@@ -614,7 +699,7 @@ W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: false,
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -719,7 +804,7 @@ W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2
         previewLinks: false,
 
         // Transition style (none/fade/slide/convex/concave/zoom)
-        transition: 'none',
+        transition: 'fade',
 
         // Transition speed (default/fast/slow)
         transitionSpeed: 'default',
